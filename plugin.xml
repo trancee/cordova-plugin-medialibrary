@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<plugin
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    id="net.swiss-design.cordova.medialibrary"
+
+    version="0.0.1">
+
+    <name>MediaLibrary</name>
+    <description>Cordova MediaLibrary Plugin</description>
+
+    <author>Philipp Grosswiler</author>
+
+    <repo>https://github.com/trancee/cordova-plugin-medialibrary.git</repo>
+
+    <license>Apache 2.0</license>
+    <keywords>cordova,media,library,medialibrary</keywords>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device" />
+
+
+
+    <js-module src="www/medialibrary.js" name="medialibrary">
+        <clobbers target="window.MediaLibrary" />
+    </js-module>
+
+
+
+    <!-- android -->
+    <platform name="android">
+        <source-file src="src/android/MediaLibrary.java" target-dir="src/net/swiss-design/cordova/medialibrary" />
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MediaLibrary">
+                <param name="android-package" value="net.swiss-design.cordova.medialibrary.MediaLibrary" onload="true" />
+            </feature>
+        </config-file>
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <source-file src="src/ios/CDVMediaLibrary.m" />
+        <header-file src="src/ios/CDVMediaLibrary.h" />
+
+        <source-file src="src/ios/ALAssetsLibrary+CustomPhotoAlbum.m" />
+        <header-file src="src/ios/ALAssetsLibrary+CustomPhotoAlbum.h" />
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="MediaLibrary">
+                <param name="ios-package" value="CDVMediaLibrary" onload="true" />
+            </feature>
+        </config-file>
+    </platform>
+
+    <!-- wp8 -->
+    <platform name="wp8">
+        <source-file src="src/wp/MediaLibrary.cs" />
+
+        <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+            <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+        </config-file>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="MediaLibrary">
+                <param name="wp-package" value="MediaLibrary"/>
+            </feature>
+        </config-file>
+    </platform>
+
+</plugin>
