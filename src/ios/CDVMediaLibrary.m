@@ -37,7 +37,7 @@
 
 - (void)pluginInitialize
 {
-    BOOL isiOS7 = (IsAtLeastiOSVersion(@"7.0"));
+	// BOOL isiOS7 = (IsAtLeastiOSVersion(@"7.0"));
 }
 
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView
@@ -61,11 +61,13 @@
 	NSData *imageData = [NSData dataWithContentsOfURL:imageUri];
 	*/
 	NSString* imageUri = [command.arguments objectAtIndex:0];
+	NSLog(@"imageUri: %@",imageUri);
 	NSString* albumName = [command.arguments objectAtIndex:1];
 	NSLog(@"albumName: %@",albumName);
 
 	// UIImage* image = [[[UIImage alloc] initWithData:imageData cache:NO] autorelease];
-	UIImage* image = [[[UIImage alloc] initWithContentsOfFile:imageUri cache:NO] autorelease];
+	// UIImage* image = [[[UIImage alloc] initWithContentsOfFile:imageUri cache:NO] autorelease];
+	UIImage* image = [UIImage imageWithContentsOfFile:imageUri];
 
 	[self.library saveImage:image toAlbum:albumName withCompletionBlock:^(NSError *error) {
 		if (error != nil) {
@@ -87,9 +89,10 @@
 - (void) dealloc
 {
 	self.library = nil;
-
+/*
 	[callbackId release];
 	[super dealloc];
+*/
 }
 
 @end
