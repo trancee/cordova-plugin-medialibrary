@@ -26,7 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.Uri;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -44,6 +43,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
+import android.net.Uri;
 
 public class MediaLibrary extends CordovaPlugin {
 	private static final String LOG_TAG = "MediaLibrary";
