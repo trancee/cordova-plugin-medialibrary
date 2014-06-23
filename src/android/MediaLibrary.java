@@ -17,7 +17,7 @@
  * under the License.
  *
 */
-package net.swiss-design.cordova.medialibrary;
+package org.apache.cordova.medialibrary;
 
 import android.app.Activity;
 import android.util.Log;

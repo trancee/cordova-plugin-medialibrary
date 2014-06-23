@@ -23,7 +23,7 @@
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    id="net.swiss-design.cordova.medialibrary"
+    id="org.apache.cordova.medialibrary"
 
     version="0.0.1">
 
@@ -53,7 +53,7 @@
 
     <!-- android -->
     <platform name="android">
-        <source-file src="src/android/MediaLibrary.java" target-dir="src/net/swiss-design/cordova/medialibrary" />
+        <source-file src="src/android/MediaLibrary.java" target-dir="src/org/apache/cordova/medialibrary" />
 
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -61,7 +61,7 @@
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MediaLibrary">
-                <param name="android-package" value="net.swiss-design.cordova.medialibrary.MediaLibrary" onload="true" />
+                <param name="android-package" value="org.apache.cordova.medialibrary.MediaLibrary" onload="true" />
             </feature>
         </config-file>
     </platform>
