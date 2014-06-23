@@ -32,6 +32,7 @@ import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +45,7 @@ import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 
 public class MediaLibrary extends CordovaPlugin {
-	private static final String TAG = "MediaLibrary";
+	private static final String LOG_TAG = "MediaLibrary";
 
 	/**
 	 * Sets the context of the Command. This can then be used to do things like
@@ -55,7 +56,7 @@ public class MediaLibrary extends CordovaPlugin {
 	 */
 	@Override
 	public void initialize (CordovaInterface cordova, CordovaWebView webView) {
-		Log.v(TAG, "MediaLibrary: initialization");
+		Log.v(LOG_TAG, "MediaLibrary: initialization");
 
 		super.initialize (cordova, webView);
 	}
@@ -70,7 +71,7 @@ public class MediaLibrary extends CordovaPlugin {
 	 */
 	@Override
 	public boolean execute (String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
-		Log.v(TAG, "Executing action: " + action);
+		Log.v(LOG_TAG, "Executing action: " + action);
 
 		final Activity activity = this.cordova.getActivity ();
 		final Window window = activity.getWindow ();
