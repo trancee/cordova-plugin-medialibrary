@@ -24,7 +24,7 @@ var exec = require('cordova/exec');
 var MediaLibrary = {
 
     // Saves the image to the media library.
-    savePicture: function (imageData, albumName, fileName) {
+    savePicture: function (imageUri, albumName, fileName) {
         exec(null, null, "MediaLibrary", "savePicture", [imageUri, albumName, fileName]);
     }
 
