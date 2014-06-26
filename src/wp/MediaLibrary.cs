@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Threading;
 
 using System.Windows;
@@ -46,39 +47,48 @@ namespace WPCordovaClassLib.Cordova.Commands
 			string albumName = args[1];
 			string fileName = args[2];
 
-			Deployment.Current.Dispatcher.BeginInvoke(() =>
-			{
-				Uri uri = new Uri (imageUri);
-				BitmapImage bitmapImage = new BitmapImage ();
-				bitmapImage.CreateOptions = BitmapCreateOptions.None;
-				bitmapImage.UriSource = uri;
-				WriteableBitmap writeableBitmap = new WriteableBitmap (bitmapImage);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                using (IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    if (! isoFile.FileExists (imageUri))
+                    {
+                        DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "File does not exist."));
+                        return;
+                    }
 
-				using (var mediaLibrary = new MediaLibrary ())
-				{
-					using (var stream = new MemoryStream ())
-					{
-						writeableBitmap.SaveJpeg (stream, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, 0, 100);
-						stream.Seek (0, SeekOrigin.Begin);
+                    using (Microsoft.Xna.Framework.Media.MediaLibrary mediaLibrary = new Microsoft.Xna.Framework.Media.MediaLibrary())
+                    {
+                        using (Stream fileStream = isoFile.OpenFile(imageUri, FileMode.Open))
+                        {
+                            var bitmapImage = new BitmapImage { CreateOptions = BitmapCreateOptions.None };
+                            bitmapImage.SetSource(fileStream);
 
-						// Image data that is passed in must be in a JPEG file format. SavePicture always saves the image in a JPEG file format.
-						var picture = mediaLibrary.SavePicture (fileName, stream);
+                            using (MemoryStream bitmapStream = new MemoryStream())
+                            {
+                                var writeableBitmap = new WriteableBitmap(bitmapImage);
+                                writeableBitmap.SaveJpeg(bitmapStream, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, 0, 100);
 
-						if (picture.Name.Contains (fileName)) {
-							PluginResult result = new PluginResult (PluginResult.Status.OK, "Picture saved.");
-							result.KeepCallback = false;
-							this.DispatchCommandResult (result);
+                                bitmapStream.Seek(0, SeekOrigin.Begin);
 
-							return true;
-						}
-					}
-				}
+                                // Image data that is passed in must be in a JPEG file format. SavePicture always saves the image in a JPEG file format.
+                                var picture = mediaLibrary.SavePicture(fileName, bitmapStream);
 
-				PluginResult result = new PluginResult (PluginResult.Status.ERROR, "Picture not saved.");
-				this.DispatchCommandResult (result);
-
-				return false;
-			}
+                                if (picture.Name.Contains(fileName))
+                                {
+                                    DispatchCommandResult(new PluginResult(PluginResult.Status.OK, "Picture saved."));
+                                    return;
+                                }
+                                else
+                                {
+                                    DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Picture not saved."));
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 		}
 	}
 }
